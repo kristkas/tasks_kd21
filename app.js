@@ -1,7 +1,18 @@
 const form = document.querySelector("form");
 const taskImput = document.querySelector("#task");
+const tasksList = document.querySelector(".collection");
 
-form.addEventListener("submit", addTask)
+form.addEventListener("submit", addTask);
+tasksList.addEventListener("click", deleteTask);
+
+
+function deleteTask(e) {
+    if (e.target.textContent == "X"){
+        if (confirm("Do you want to delete this task?")){
+            e.target.parentElement.remove();
+        }
+    }
+}
 
 function addTask(e) {
     // input value
@@ -14,6 +25,16 @@ function addTask(e) {
     const text = document.createTextNode(task);
     // add text value to <li>
     li.appendChild(text);
+    // create link element
+    const link = document.createElement("a");
+    // set href attribute
+    link.setAttribute("href", "#")
+    // add CSS style
+    link.className = "secondary-content";
+    // add X text to link
+    link.appendChild(document.createTextNode("X"));
+    // add link to <li>
+    li.appendChild(link);
     // find <ul> DOM component
     const ul = document.querySelector(".collection");
     // add <li> to <ul>
