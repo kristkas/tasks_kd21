@@ -18,9 +18,28 @@ function deleteTask(e) {
     if (e.target.textContent == "X"){
         if (confirm("Do you want to delete this task?")){
             e.target.parentElement.remove();
+            let task  = e.target.parentElement.textContent.slice(o, -1);
+            removeStorage(task);
         }
     }
 }
+
+
+function removeStorage(task){
+    let tasks
+    if(localStorage.getItem("tasks") == null){
+        tasks = []
+    } else {
+        tasks = JSON.parse(localStorage.getItem("tasks"));
+    }
+    tasks.forEach(function (taskFromLS, taskIndex){
+        if (taskFromLS == task){
+            tasks.splice(taskIndex, 1)
+        }
+    })
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
 
 function addTask(e) {
     // input value
