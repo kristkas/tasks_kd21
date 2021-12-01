@@ -3,22 +3,67 @@ const taskImput = document.querySelector("#task");
 const tasksList = document.querySelector(".collection");
 const delTasksBtn = document.querySelector("#del-tasks");
 
+document.addEventListener("DOMContentLoaded", getTasks)
+
+function getTasks(){
+    // get data from LS
+    let tasks
+    if(localStorage.getItem('tasks') === null){
+        tasks = []
+    } else {
+        tasks = JSON.parse(localStorage.getItem('tasks'))
+    }
+
+    // for each task in tasks
+    tasks.forEach(function(taskFromLS){
+        // create li and add to taskList
+        // create element to DOM
+        const li = document.createElement('li')
+        // add CSS class
+        li.className = 'collection-item'
+        // add text to element
+        const text = document.createTextNode(taskFromLS)
+        li.appendChild(text)
+        // create link
+        const link = document.createElement('a')
+        // add css style
+        link.className = 'secondary-content'
+        // add text to link
+        link.appendChild(document.createTextNode('X'))
+        // add href attribute
+        link.setAttribute('href', '#')
+        // add link to li
+        li.appendChild(link)
+        // add li to taskList
+        taskList.appendChild(li)
+    })
+}
+
 form.addEventListener("submit", addTask);
 tasksList.addEventListener("click", deleteTask);
 delTasksBtn.addEventListener("click", deleteTasks);
+
 
 function deleteTasks(){
     // tasksList.innerHTML = "";
     while(tasksList.firstChild){
         tasksList.removeChild(tasksList.firstChild);
     }
+    removeAllStorage()
 }
 
+function removeAllStorage(){
+    localStorage.removeItem("tasks")
+}
+
+function delTask(){
+    localStorage.removeItem("tasks")
+}
 function deleteTask(e) {
     if (e.target.textContent == "X"){
         if (confirm("Do you want to delete this task?")){
             e.target.parentElement.remove();
-            let task  = e.target.parentElement.textContent.slice(o, -1);
+            let task  = e.target.parentElement.textContent.slice(0, -1);
             removeStorage(task);
         }
     }
